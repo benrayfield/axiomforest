@@ -1,6 +1,8 @@
 /** Ben F Rayfield offers this software opensource MIT license */
 package axiomforest.superposition;
 
+import immutable.util.TruthValue;
+
 /** immuable trinary forest node where all paths lead to leaf. Does not have any truthvalue or color,
 as those would be stored in Observedλ which is a layer above this.
 <br><br>

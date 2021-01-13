@@ -27,7 +27,10 @@ public interface λObserver{
 	/** If param is true then it implies the return is false */
 	public Set<UnaryOperator<λ>> impliesNo();
 	
-	/* implies all paths from here (UnaryOperator param) to/from there (UnaryOperator return) are odd,
+	/* Λ.tv() is opposite my tv() but without having to know either,
+	similar to from any corner of a hypercube the corners can be divided into 2 groups those of even vs odd parity,
+	but things dont have to be organized like a hypercube its just here in case you want to use those kinds of axioms,
+	or view it as all paths from here (UnaryOperator param) to/from there (UnaryOperator return) are odd parity,
 	and if its unproveable then there there are no paths of even or odd length
 	Vaguely might somehow be related to parity in physics andOr linear algebra but I dont want to speculate yet.
 	I imagine using just impliesYes and impliesNo but this seems to complete the pattern.
@@ -36,9 +39,12 @@ public interface λObserver{
 	about 2^100 voxels of a 100 dimensional hypercube whose corners are each white or black depending
 	on the parity of all paths length from any chosen corner and is trivially just log number of copy move invert average. 
 	*/
-	public Set<UnaryOperator<λ>> impliesOdd();
+	public Set<UnaryOperator<λ>> odd();
 	
-	/* implies all paths from here (UnaryOperator param) to/from there (UnaryOperator return) are even,
+	/* Λ.tv() is opposite my tv() but without having to know either,
+	similar to from any corner of a hypercube the corners can be divided into 2 groups those of even vs odd parity,
+	but things dont have to be organized like a hypercube its just here in case you want to use those kinds of axioms,
+	or view it as all paths from here (UnaryOperator param) to/from there (UnaryOperator return) are even parity.
 	and if its unproveable then there there are no paths of even or odd length.
 	Vaguely might somehow be related to parity in physics andOr linear algebra but I dont want to speculate yet.
 	I imagine using just impliesYes and impliesNo but this seems to complete the pattern.
@@ -47,9 +53,11 @@ public interface λObserver{
 	about 2^100 voxels of a 100 dimensional hypercube whose corners are each white or black depending
 	on the parity of all paths length from any chosen corner and is trivially just log number of copy move invert average.
 	*/
-	public Set<UnaryOperator<λ>> impliesEven();
+	public Set<UnaryOperator<λ>> even();
 	
-	/** of trinaryForestNodes: forall x forall y: if x and y are true then <trinaryForestLeaf x y> is true.
+	/** of trinaryForestNodes: forall x forall y: <trinaryForestLeaf x y> is YES, regardless of x and y being YES andOr NO,
+	which allows a halted lambda to see any nonhalted part of the system such as to generate a custom kind of id of it
+	and to compute statements about all possible statements that can be said in the system but only about 1 at a time.
 	This returns <trinaryForestLeaf x y> for its 2 params x y.
 	*/
 	public BinaryOperator<λ> joiner();

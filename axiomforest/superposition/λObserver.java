@@ -31,6 +31,10 @@ public interface λObserver{
 	and if its unproveable then there there are no paths of even or odd length
 	Vaguely might somehow be related to parity in physics andOr linear algebra but I dont want to speculate yet.
 	I imagine using just impliesYes and impliesNo but this seems to complete the pattern.
+	<br><br>
+	See https://github.com/benrayfield/hypercubewave smooth curves about parity, which is the display of
+	about 2^100 voxels of a 100 dimensional hypercube whose corners are each white or black depending
+	on the parity of all paths length from any chosen corner and is trivially just log number of copy move invert average. 
 	*/
 	public Set<UnaryOperator<λ>> impliesOdd();
 	
@@ -38,6 +42,10 @@ public interface λObserver{
 	and if its unproveable then there there are no paths of even or odd length.
 	Vaguely might somehow be related to parity in physics andOr linear algebra but I dont want to speculate yet.
 	I imagine using just impliesYes and impliesNo but this seems to complete the pattern.
+	<br><br>
+	See https://github.com/benrayfield/hypercubewave smooth curves about parity, which is the display of
+	about 2^100 voxels of a 100 dimensional hypercube whose corners are each white or black depending
+	on the parity of all paths length from any chosen corner and is trivially just log number of copy move invert average.
 	*/
 	public Set<UnaryOperator<λ>> impliesEven();
 	

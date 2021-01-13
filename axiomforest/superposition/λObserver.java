@@ -27,14 +27,14 @@ public interface λObserver{
 	/** If param is true then it implies the return is false */
 	public Set<UnaryOperator<λ>> impliesNo();
 	
-	/* implies all paths from here (param) to/from there (param) are odd,
+	/* implies all paths from here (UnaryOperator param) to/from there (UnaryOperator return) are odd,
 	and if its unproveable then there there are no paths of even or odd length
 	Vaguely might somehow be related to parity in physics andOr linear algebra but I dont want to speculate yet.
 	I imagine using just impliesYes and impliesNo but this seems to complete the pattern.
 	*/
 	public Set<UnaryOperator<λ>> impliesOdd();
 	
-	/* implies all paths from here (param) to/from there (param) are even,
+	/* implies all paths from here (UnaryOperator param) to/from there (UnaryOperator return) are even,
 	and if its unproveable then there there are no paths of even or odd length.
 	Vaguely might somehow be related to parity in physics andOr linear algebra but I dont want to speculate yet.
 	I imagine using just impliesYes and impliesNo but this seems to complete the pattern.

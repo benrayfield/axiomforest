@@ -11,7 +11,7 @@ but ΛObserver can imply things from false statements depending on the axioms.
 and only imply more true nodes, then wanted to also imply that the statement
 that for 4 lambdas b c d e: (b c)->d and (b c)->e cant both be true at once,
 since every call of lambda on lambda returns at most 1 lambda (I have a 1-to-1 mapping between lambdas and integers,
-see the numOfUniqBinaryForestShapesAtHeight(x) = see the numOfUniqBinaryForestShapesAtHeight(x-1)^2+1
+see the numOfUniqBinaryForestShapesAtHeight(x) = numOfUniqBinaryForestShapesAtHeight(x-1)^2+1
 and numOfUniqBinaryForestShapesAtHeight(0)=1, but excluding those which have more than 5 curries
 (lambda.l.l.l.l.l is leaf if its 5 curries, lambda is leaf if its 0 curries), so skip those in counting them.
 Then I started upgrading to Λ (3-way and a bit) but found

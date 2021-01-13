@@ -41,6 +41,18 @@ public interface Λ /*extends λ ??? what about equals and hashCode?*/{
 	
 	public Λ r();
 	
+	/** Similar to minheap/maxheap indexing, this does multiple calls of v(), l(), and r(),
+	without necessarily creating the objects between.
+	00 is v(). 10 is l(). 01 is r(), or todo reorder those uint2s?. TODO should it use 11 to end the sequence,
+	or 11 means self, or end it with the highest 1 bit?
+	*/
+	public Λ vlr(long sequence);
+	
+	/** like vlr(long) except only does l() and r() so only needs 1 bit per branch, so can go twice as deep for same long.
+	This will be very useful for large bitstrings (cbt).
+	*/
+	public Λ lr(long sequence);
+	
 	/** Superposition aka shapeOnly. Same forest shape but without the boolean tv.
 	Old?... WARNING: may duplicate the whole forest on the first call but cache it probably.
 		TODO fix this by Observedλ automatically having the λ and the bit as fields.

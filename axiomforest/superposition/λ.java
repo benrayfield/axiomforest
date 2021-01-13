@@ -45,6 +45,18 @@ public interface λ{
 	/** param, 1 of 3 trinary forest childs. To start, all you have is leaf, so call that on itself, then you have 2 nodes. */
 	public λ r();
 	
+	/** Similar to minheap/maxheap indexing, this does multiple calls of v(), l(), and r(),
+	without necessarily creating the objects between.
+	00 is v(). 10 is l(). 01 is r(), or todo reorder those uint2s?. TODO should it use 11 to end the sequence,
+	or 11 means self, or end it with the highest 1 bit?
+	*/
+	public λ vlr(long sequence);
+	
+	/** like vlr(long) except only does l() and r() so only needs 1 bit per branch, so can go twice as deep for same long.
+	This will be very useful for large bitstrings (cbt).
+	*/
+	public λ lr(long sequence);
+	
 	/** by trinary forest shape */
 	public boolean equals(Object o);
 	

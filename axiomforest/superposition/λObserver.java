@@ -41,7 +41,7 @@ public interface λObserver{
 	*/
 	public Set<UnaryOperator<λ>> odd();
 	
-	/* Λ.tv() is opposite my tv() but without having to know either,
+	/* Λ.tv() is equal to my tv() but without having to know either,
 	similar to from any corner of a hypercube the corners can be divided into 2 groups those of even vs odd parity,
 	but things dont have to be organized like a hypercube its just here in case you want to use those kinds of axioms,
 	or view it as all paths from here (UnaryOperator param) to/from there (UnaryOperator return) are even parity.

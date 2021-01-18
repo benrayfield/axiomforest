@@ -16,7 +16,7 @@ public class MarklarId{
 	The system will support multiple simultaneous custom id types aligning to eachother at runtime,
 	and this is just a prototype.
 	
-	TODO id differs by only 1 bit if its allYes vs allObserve,
+	TODO id differs by only 1 bit if its allYes vs allUnknown,
 	and maybe similar (1-2 more bits?) for those vs allUnknown vs allUnknownBelow.
 	
 

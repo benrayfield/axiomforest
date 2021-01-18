@@ -143,8 +143,20 @@ public interface λ<Node extends λ<Node>>{
 	
 	public boolean heightIsAtLeast127();
 	
-	/** isAll0s_and_is_cbt0_to_cbt124 - way to efficiently skip sparse ranges such as bitstring padding or 1d sparse array. */
+	/** True if contains ((u u) u) aka 1.
+	Also, (u (u u)) is 0, which is often relevant to the caller
+	since if know its a cbt of size 1 and it does not contain 1 then its 0,
+	and bitstrings are padded with 10000000... until next powOf2 so if know its all 0s
+	then can skip that sparse range, and if know its a cbt thats all 0s then know its not a bitstring
+	since it lacks that padding. This is normally used with is_cbt0_to_cbt124 and height.
+	<br><br>
+	x contains1 if x is ((u u) u) or if x.l.contains1 | x.r.contains1.
+	<br><br>
+	OLD:
+	isAll0s_and_is_cbt0_to_cbt124 - way to efficiently skip sparse ranges such as bitstring padding or 1d sparse array. *
 	public boolean isAll0s_and_is_cbt0_to_cbt124();
+	*/
+	public boolean contains1();
 	
 	/** is_cbt0_to_cbt124 aka bitstring up to size 2^124-1 (excluding 1000000... padding to next powOf2). */
 	public boolean is_cbt0_to_cbt124();

@@ -33,7 +33,7 @@ but similarly you could use (u "double[]" <the bits of the double array>) where 
 as the namespaces are starting to look like what I wanted typeval to be, though they normally come with
 a custom function of (axiomnode,axiomnode)->axiomnode while typeval was just a semantic.
 <br><br>
-(u anything_of_height_at_least_3) is namespace anything_of_height_at_least_3.
+(u anything_of_height_at_least_2) is namespace anything_of_height_at_least_2.
 <br><br>
 ???16 bits of header (todo reorder these)[
 	7 bits - height is 0..126, or 127 means height is bigger.
@@ -48,12 +48,13 @@ a custom function of (axiomnode,axiomnode)->axiomnode while typeval was just a s
 	anyBull
 ]???
 <br><br>
-TODO id differs by only 1 bit if its allYes vs allObserve,
+TODO id differs by only 1 bit if its allYes vs allUnknown,
 and maybe similar (1-2 more bits?) for those vs allUnknown vs allUnknownBelow.
 */
 public class HeaderBits{
 	private HeaderBits(){}
 	
+	rewriting these from the comment below it...
 	public final short maskCbt =             0b0000000011111111;
 	public final short maskNo =              0b0000000100000000;
 	public final short maskYes =             0b0000001000000000;
@@ -65,7 +66,9 @@ public class HeaderBits{
 	public final short maskAnyBull =  (short)0b1000000000000000;
 	
 	7 bits - height is 0..126, or 127 means height is bigger.
-	isAll0s_and_is_cbt0_to_cbt124 - way to efficiently skip sparse ranges such as bitstring padding or 1d sparse array.
+	contains1 - more efficient to compute than isAll0s_and_is_cbt0_to_cbt124
+		//isAll0s_and_is_cbt0_to_cbt124 - way to efficiently skip sparse ranges such as bitstring padding or 1d sparse array.
+		//FIXME change this to contains1
 	is_cbt0_to_cbt124 aka bitstring up to size 2^124-1 (excluding 1000000... padding to next powOf2).
 	no
 	yes
@@ -182,7 +185,7 @@ public class HeaderBits{
 	
 	
 	/*	
-	TODO id differs by only 1 bit if its allYes vs allObserve,
+	TODO id differs by only 1 bit if its allYes vs allUnknown,
 	and maybe similar (1-2 more bits?) for those vs allUnknown vs allUnknownBelow.
 	*/
 	

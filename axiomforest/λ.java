@@ -65,6 +65,22 @@ public interface λ<Node extends λ<Node>>{
 	*/
 	public TruthValue tv();
 	
+	/** See axiomforest.HeaderBits.
+	This is a cache derived from only the 4-way forest shape where 2 of those are child pointers and 2 are TruthValue bits.
+	All the boolean functions of this class are derived from this header.
+	This has all the info you need other than merkle hash, so you can append 30 bytes of any secureHash of 2 childs
+	and self's normed form to this, to get an id256.
+	Also, after the lambdas are working in that system, any lambda can be used as an idMaker at runtime,
+	and use multiple kinds of ids simultaneously andOr do migrations and realtime translations between
+	systems that use different kinds of merkle ids.
+	Lambdas can see axiomforest nodes (λ) cuz the system is near godel quality of self reference,
+	but in theory avoids the paradoxes that godel ran into by going for slightly different design goals.
+	Its suggested that all those other id types include the same 16 bit header somewhere,
+	but technically they only have to be a unique id (except hash collisions) for an immutable 4-way-forest
+	where 2 of those are child pointers and 2 are bits, since the 16 bit header can be derived from that.
+	*/
+	public short header();
+	
 	/** This is core data. The leaf's TruthValue is TruthValue.yes, and so is <leaf x y> for any x and y regardless of their TruthValues. */
 	public boolean isLeaf();
 	
@@ -125,22 +141,21 @@ public interface λ<Node extends λ<Node>>{
 	/** This is a cache or derived. Are any of [this and below in the 3 way forest] bull? */
 	public boolean anyBull();
 	
-	/** always TruthValue.unknown in λ.
-	The +1bit of the 3+1bit childs. TruthValue.yes or TruthValue.no *
-	public boolean tv();
-	*/
-		
-	/** This is a cache or derived. Similar to minheap/maxheap indexing, this does multiple calls of v(), l(), and r(),
-	without necessarily creating the objects between.
-	00 is v(). 10 is l(). 01 is r(), or todo reorder those uint2s?. TODO should it use 11 to end the sequence,
-	or 11 means self, or end it with the highest 1 bit?
-	*/
-	public Node vlr(long sequence);
+	public boolean heightIsAtLeast127();
+	
+	/** isAll0s_and_is_cbt0_to_cbt124 - way to efficiently skip sparse ranges such as bitstring padding or 1d sparse array. */
+	public boolean isAll0s_and_is_cbt0_to_cbt124();
+	
+	/** is_cbt0_to_cbt124 aka bitstring up to size 2^124-1 (excluding 1000000... padding to next powOf2). */
+	public boolean is_cbt0_to_cbt124();
 	
 	/** This is a cache or derived. Like vlr(long) except only does l() and r() so only needs 1 bit per branch, so can go twice as deep for same long.
 	This will be very useful for large bitstrings (cbt).
 	*/
-	public Node lr(long sequence);
+	public Node go(long sequence);
+	
+	/** same as at(sequence).tv() but maybe more efficient by not creating any nodes */
+	public TruthValue tv(long sequence);
 	
 	/** This is a cache or derived. By trinary forest shape and TruthValue at each node.
 	allYes, allObserve, allUnknown, and anyBull are cache of TruthValues reachable below,

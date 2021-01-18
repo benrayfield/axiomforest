@@ -1,7 +1,15 @@
 /** Ben F Rayfield offers this software opensource MIT license */
 package axiomforest;
 
-/** UPDATE: 2-way forest instead of 3-way, cuz I thought of a way
+import java.nio.Buffer;
+
+/** Immutable 4-way forest where all paths lead to leaf, and 2 of those 4 are child pointers,
+and the others are 2 bits meaning TruthValue.unknown, TruthValue.yes, TruthValue.no, or TruthValue.bull,
+and leaf.l==((leaf leaf)(leaf leaf)) aka identityFunc, and leaf.r==leaf,
+and (leaf (leaf leaf)) means the bit 0 like in bitstrings, and ((leaf leaf) leaf) means bit 1,
+and bitstrings are padded with 1000000... until the next powOf2.
+<br><br>
+UPDATE: 2-way forest instead of 3-way, cuz I thought of a way
 to put the bloom filter inside the 6 param wikibinator function,
 so any other systems can still go in the same bloomfilter.
 Will still sometimes include 3 childs (instead of 4) cuz of including superposition()
@@ -58,7 +66,20 @@ and am undecided if will use TruthValue instead of color
 some or all of those being part of a color or a whole color?
 but trinary forest nodes are a lower level than wikibinator opcodes).
 */
-public interface λ<Node extends λ<Node>>{
+public interface λ<Node extends λ<Node>> extends Cbt{
+	//FIXME extends Blob or Cbt?
+	
+	//FIXME isBlob func is needed if going to extend blob, cuz not everything is a cbt,
+	//and not every cbt is known to be a cbt yet cuz short header only knows height up to 126.
+	
+	/*FIXME if this is part of axiomforest, where ((u u) u) is 1 and (u (u u)) is 0,
+	then it cant put in the extra bits of "boolean flo" and "byte piz" (such as float is a 1<<5 bit flo and piz is 5).
+	Axiomforest can know something is or is not a bitstring and its length, and thats it.
+	Also, axiomforest supports unlimited size bitstrings, so there needs to be a way to say
+	that even though the interface only has longs and is bit aligned, that its bigger.
+	Axiomforest's header knows log2 of bitstring size up to about cbt size 2^124 bits,
+	but it also has a way to say its either bigger or not a bitstring.
+	*/
 	
 	/** This is core data. Is [the 3 way forest shape form of this (allUnknown)] a true statement,
 	such as a certain lambda called on a certain 3 lambdas x called on y returns z?
@@ -100,9 +121,11 @@ public interface λ<Node extends λ<Node>>{
 	
 	/** This is core data. Func, 1 of 3 trinary forest childs. To start, all you have is leaf, so call that on itself, then you have 2 nodes. */
 	public Node l();
+	FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
 	
 	/** This is core data. Param, 1 of 3 trinary forest childs. To start, all you have is leaf, so call that on itself, then you have 2 nodes. */
 	public Node r();
+	FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
 	
 	//Whats above are the primary storage of data. Whats below is cache of it or of it in childs recursively,
 	//or functions for creating combos of it etc.
@@ -165,9 +188,11 @@ public interface λ<Node extends λ<Node>>{
 	This will be very useful for large bitstrings (cbt).
 	*/
 	public Node go(long sequence);
+	FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
 	
 	/** same as at(sequence).tv() but maybe more efficient by not creating any nodes */
 	public TruthValue tv(long sequence);
+	FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
 	
 	/** This is a cache or derived. By trinary forest shape and TruthValue at each node.
 	allYes, allObserve, allUnknown, and anyBull are cache of TruthValues reachable below,
@@ -216,6 +241,50 @@ public interface λ<Node extends λ<Node>>{
 	public default Node p(Node r){
 		return p(TruthValue.yes, r);
 	}
+	
+	TODO λ.java implement immutable.util.Blob and similar for these wrapping functions?
+			
+	TODO should these copy the data or wrap it and the caller agrees not to modify it, or use wrapb vs wrapc for that?
+	aka w(...) vs W(...)?
+	
+	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	public λ w(boolean... data);
+	
+	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	public λ w(byte... data);
+	
+	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	public λ w(short... data);
+	
+	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	public λ w(char... data);
+	
+	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	public λ w(float... data);
+	
+	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	public λ w(int... data);
+	
+	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	public λ w(long... data);
+	
+	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	public λ w(double... data);
+	
+	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	public λ w(Buffer data);
+	
+	
+	TODO make sure these funcs are flexible enough for lazycl, which is 1 of the places where Blob.java is,
+	and it has LazyBlob which is derived only from a key val key val key val... map of string to LazyBlob
+	as a vararg call lazycl(String LazyBlob String LazyBlob...). That would of course be just something
+	that uses axiomforest, similar to wikibinator will use axiomforest.
+	WARNING: lazycl is not sandboxed, and wikibinator etc is, so lazycl is not a good thing to put in axiomforest
+	until its sandboxed, since just cuz some opencl andOr java code is in the axiomforest does not mean
+	you should eval it outside the axiomforest. A BinaryOperator<λ> which implements wikibinator,
+	andOr which implements lazycl, is ok to be in axiomforest only if its ok to call on all possible params
+	which means it needs to be sandboxed.
+	
 	
 	
 	/** This is a cache or derived. Lazy call this on param *

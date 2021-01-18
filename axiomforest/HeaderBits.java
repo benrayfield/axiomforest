@@ -1,3 +1,4 @@
+/** Ben F Rayfield offers this software opensource MIT license */
 package axiomforest;
 
 import javax.xml.stream.events.Namespace;
@@ -54,18 +55,135 @@ and maybe similar (1-2 more bits?) for those vs allUnknown vs allUnknownBelow.
 public class HeaderBits{
 	private HeaderBits(){}
 	
-	rewriting these from the comment below it...
-	public final short maskCbt =             0b0000000011111111;
-	public final short maskNo =              0b0000000100000000;
-	public final short maskYes =             0b0000001000000000;
-	public final short maskLeaf =            0b0000010000000000;
-	public final short maskAllYes =          0b0000100000000000;
-	public final short maskAllObserve =      0b0001000000000000;
-	public final short maskAllUnknown =      0b0010000000000000;
-	public final short maskAllUnknownBelow = 0b0100000000000000;
-	public final short maskAnyBull =  (short)0b1000000000000000;
+	public static short header(TruthValue tv, short leftHeader, short rightHeader){
+		TODO
+	}
 	
-	7 bits - height is 0..126, or 127 means height is bigger.
+	public static short headerOfLeaf(TruthValue tv){
+		TODO
+	}
+	
+	/** null is used in the third child of a norm to mean "norm of norm" is itself, but just put null there
+	since you cant include x in the content to hash that generates x, as explained in IdMaker.idOfNull() comment.
+	*/
+	public static short headerOfNull(){
+		TODO
+	}
+	
+	/*FIXME I want ids to be 255 bits, so as a bitstring with padding its 256 bits,
+	so its last bit is always 1 in a cbt256.
+	But where to take that bit from? Use header concat 239 bits of sha3_256 concat 1?
+	*/
+	
+	//FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
+	
+	/** 0 to 126 mean its that height. 127 means higher. */
+	public static final short maskHeight =           0b0000000001111111;
+	
+	/** x.maskContains1 == (x.norm equals ((u u) u).norm) | x.l.maskContains1 | x.r.maskContains1 */
+	public static final short maskContains1 =        0b0000000010000000;
+	
+	/** x.tv().n */
+	public static final short maskNo =               0b0000000100000000;
+	
+	/** x.tv().y */
+	public static final short maskYes =              0b0000001000000000;
+	
+	/** [x is ((u u) u) aka 1 or (u (u u)) aka 0]
+	| (x.l.maskIsCbtUpTo2Pow124 & x.r.maskIsCbtUpTo2Pow124 & [x.maskHeight != 127 aka is higher than fits in header])
+	*/
+	public static final short maskIsCbtUpTo2Pow124 = 0b0000010000000000;
+	
+	/** x.tv()==TruthValue.yes & (x.isLeaf | (x.l.allYes & x.r.allYes)) */
+	public static final short maskAllYes =           0b0000100000000000;
+	
+	/** (x.tv()==TruthValue.yes | x.tv()==TruthValue.no) & (x.isLeaf | (x.l.allObserve & x.r.allObserve)) */
+	public static final short maskAllObserve =       0b0001000000000000;
+	
+	/** x.tv()==TruthValue.unknown & (x.isLeaf | (x.l.allUnknown & x.r.allUnknown)) */
+	public static final short maskAllUnknown =       0b0010000000000000;
+	
+	/** x.isLeaf | (x.l.allUnknown & x.r.allUnknown) */
+	public static final short maskAllUnknownBelow =  0b0100000000000000;
+	
+	/** x.tv()==TruthValue.bull | x.l.anyBull | x.r.anyBull */
+	public static final short maskAnyBull =   (short)0b1000000000000000;
+	
+	public static final boolean heightFitsInHeader(short header){
+		return (header&maskHeight) != 0x1111111;
+	}
+	
+	public static final byte height(short header){
+		if(!heightFitsInHeader(header)) throw new RuntimeException("!heightFitsInHeader");
+		return (byte)(header&maskHeight);
+	}
+	
+	/** This is based on 256 bit ids. Returns 0 if theres no literal bits here. Else returns 1 2 4 8 16 32 64 or 128.
+	0 if this is not a litera cbt stored in an id, else is 1..128 bits
+	(or in a bigger id might have 1..256 bits, or in some datastructs might have any large number of bits,
+	but the short header defines it as a powOf2 number of bits thats literal if it fits in the id minus header etc).
+	*/
+	public static final byte numLiteralBits(short header){
+		int h = header&maskHeight;
+		//height of bit (aka a cbt1) is 2. 128 bits fits in 256 bit id. Thats 2^7. So 128 literal bits is height 9.
+		if(h <= 9) return (byte)(1<<(h-2));
+		return 0;
+	}
+	
+	public static final boolean isUnknown(short header){
+		return (header&(maskNo|maskYes))==0;
+	}
+	
+	public static final boolean isYes(short header){
+		return (header&(maskNo|maskYes))==maskYes;
+	}
+	
+	public static final boolean isNo(short header){
+		return (header&(maskNo|maskYes))==maskNo;
+	}
+	
+	public static final boolean isBull(short header){
+		return (header&(maskNo|maskYes))==(maskNo|maskYes);
+	}
+	
+	/** has a no. may also have a yes aka bull. */
+	public static final boolean hasNo(short header){
+		return (header&maskNo)!=0;
+	}
+	
+	/** has a yes. may also have a no aka bull. */
+	public static final boolean hasYes(short header){
+		return (header&maskYes)!=0;
+	}
+	
+	public static final boolean allYes(short header){
+		return (header&maskAllYes)!=0;
+	}
+	
+	public static final boolean allObserve(short header){
+		return (header&maskAllObserve)!=0;
+	}
+	
+	public static final boolean allUnknown(short header){
+		return (header&maskAllUnknown)!=0;
+	}
+	
+	public static final boolean allUnknownBelow(short header){
+		return (header&maskAllUnknownBelow)!=0;
+	}
+	
+	public static final boolean anyBull(short header){
+		return (header&maskAnyBull)!=0;
+	}
+	
+	/*public static final boolean allYes(short header){
+	}*/
+	
+	
+	
+	
+	
+	/*7 bits - height is 0..126, or 127 means height is bigger.
 	contains1 - more efficient to compute than isAll0s_and_is_cbt0_to_cbt124
 		//isAll0s_and_is_cbt0_to_cbt124 - way to efficiently skip sparse ranges such as bitstring padding or 1d sparse array.
 		//FIXME change this to contains1
@@ -77,6 +195,7 @@ public class HeaderBits{
 	allUnknown
 	allUnknownBelow
 	anyBull
+	*/
 	
 	/*public final short maskCbt =             0b0000000011111111;
 	public final short maskNo =              0b0000000100000000;
@@ -188,26 +307,5 @@ public class HeaderBits{
 	TODO id differs by only 1 bit if its allYes vs allUnknown,
 	and maybe similar (1-2 more bits?) for those vs allUnknown vs allUnknownBelow.
 	*/
-	
-	
-	
-	/** 0 if this is not a litera cbt stored in an id, else is 1..128 bits
-	(or in a bigger id might have 1..256 bits, or in some datastructs might have any large number of bits,
-	but the short header defines it as a powOf2 number of bits thats literal if it fits in the id minus header etc).
-	*/
-	public static final int numLiteralBits(short header){
-		
-	}
-	
-	public static final TruthValue isCbt(short header){
-		
-	}
-	
-	public static final TruthValue isCbt(short header){
-		
-	}
-	
-	/*public static final boolean allYes(short header){
-	}*/
 
 }

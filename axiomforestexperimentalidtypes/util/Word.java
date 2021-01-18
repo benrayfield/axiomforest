@@ -14,7 +14,15 @@ and this doesnt have a long field to update that. Or should this just pay the ex
 TODO Just use ArrayCbt<long[]> (copy some code from occamsfuncer) instead,
 or something like it but optimized for 4 final long fields???
 */
-public final class Word implements Comparable<Word>/*, λ*/{
+public final class Word implements Cbt, Comparable<Word>/*, λ*/{
+	UPDATE: created interface Cbt, and Word extends Cbt. TypedBlob extends Blob extends Cbt.
+	FIXME Word should implement Blob, and Blob should be Comparable<Blob>,
+	or more generally λ be Comparable<λ> which has the same order as Comparable<Blob> if its a cbt.
+	FIXME Blob with vs without the 100000... padding, like Word is 256 bits but would need 257 bits with padding,
+	or should ids be 255 bits and their last bit be stored as a 1?
+	Even if ids are 255 bits, there still needs to be a difference between cbt and blob
+	since blob is a bitstring, and every bitstring is a cbt, but sometimes you want a powOf2 number of bits
+	without adding 1 more to height and another pair just to view that size of bitstring.
 	
 	public final long a, b, c, d;
 	

@@ -24,7 +24,7 @@ public class ConwaysGameOfLifeAxiomsTest{
 		and axioms about how to compute them in bigO(1) size steps,
 		including conways game of life, chess, go, FPS games, and a variety of other things we might build together
 		in the shared space, proven or disproven consistent with eachother by axioms.
-		Also, (u (typeval "text/plain" "ConwaysGameOfLifeAxiomsTest") ...params...) namespace is meant to be
+		Also, (u (typeval "text/plain" "ConwaysGameOfLifeAxiomsTest456457345345") ...params...) namespace is meant to be
 		a permanent part of the axiomforest, as is every little experiment that anyone creates,
 		as long as it doesnt imply anything outside its namespace, it wont interfere with other things
 		unless those things choose to interfere with it based on what it proves and disproves within its namespace.

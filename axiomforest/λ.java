@@ -119,11 +119,11 @@ public interface λ<Node extends λ<Node>> extends Cbt{
 	public λ v();
 	*/
 	
-	/** This is core data. Func, 1 of 3 trinary forest childs. To start, all you have is leaf, so call that on itself, then you have 2 nodes. */
+	/** This is core data. Func, 1 of 2 binary forest childs. To start, all you have is leaf, so call that on itself, then you have 2 nodes. */
 	public Node l();
 	//FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
 	
-	/** This is core data. Param, 1 of 3 trinary forest childs. To start, all you have is leaf, so call that on itself, then you have 2 nodes. */
+	/** This is core data. Param, 1 of 2 binary forest childs. To start, all you have is leaf, so call that on itself, then you have 2 nodes. */
 	public Node r();
 	//FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
 	

@@ -3,6 +3,8 @@ package axiomforestexperimentalidtypes.util;
 import java.lang.ref.SoftReference;
 import java.util.Random;
 
+import axiomforest.Cbt;
+
 /** uint256, the default "word size" of this system such as id256,
 though you can derive other id sizes and types at runtime
 if you want (TODO verify that and fix if its not true).
@@ -15,7 +17,7 @@ TODO Just use ArrayCbt<long[]> (copy some code from occamsfuncer) instead,
 or something like it but optimized for 4 final long fields???
 */
 public final class Word implements Cbt, Comparable<Word>/*, λ*/{
-	UPDATE: created interface Cbt, and Word extends Cbt. TypedBlob extends Blob extends Cbt.
+	/*UPDATE: created interface Cbt, and Word extends Cbt. TypedBlob extends Blob extends Cbt.
 	FIXME Word should implement Blob, and Blob should be Comparable<Blob>,
 	or more generally λ be Comparable<λ> which has the same order as Comparable<Blob> if its a cbt.
 	FIXME Blob with vs without the 100000... padding, like Word is 256 bits but would need 257 bits with padding,
@@ -23,6 +25,7 @@ public final class Word implements Cbt, Comparable<Word>/*, λ*/{
 	Even if ids are 255 bits, there still needs to be a difference between cbt and blob
 	since blob is a bitstring, and every bitstring is a cbt, but sometimes you want a powOf2 number of bits
 	without adding 1 more to height and another pair just to view that size of bitstring.
+	*/
 	
 	public final long a, b, c, d;
 	
@@ -137,6 +140,14 @@ public final class Word implements Cbt, Comparable<Word>/*, λ*/{
 		for(int i=0; i<10; i++){
 			lg("A word: "+new Word(Rand.strongRand));
 		}
+	}
+
+	public byte heightUpTo126(){
+		throw new RuntimeException("TODO");
+	}
+
+	public long J(long bitIndex){
+		throw new RuntimeException("TODO theres 256 bits. bit aligned. allow it being completely or partially out of bounds, viewing whats outside as all 0s.");
 	}
 	
 }

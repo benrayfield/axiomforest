@@ -56,18 +56,18 @@ public class HeaderBits{
 	private HeaderBits(){}
 	
 	public static short header(TruthValue tv, short leftHeader, short rightHeader){
-		TODO
+		throw new RuntimeException("TODO");
 	}
 	
 	public static short headerOfLeaf(TruthValue tv){
-		TODO
+		throw new RuntimeException("TODO");
 	}
 	
 	/** null is used in the third child of a norm to mean "norm of norm" is itself, but just put null there
 	since you cant include x in the content to hash that generates x, as explained in IdMaker.idOfNull() comment.
 	*/
 	public static short headerOfNull(){
-		TODO
+		throw new RuntimeException("TODO");
 	}
 	
 	/*FIXME I want ids to be 255 bits, so as a bitstring with padding its 256 bits,

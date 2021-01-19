@@ -121,11 +121,11 @@ public interface λ<Node extends λ<Node>> extends Cbt{
 	
 	/** This is core data. Func, 1 of 3 trinary forest childs. To start, all you have is leaf, so call that on itself, then you have 2 nodes. */
 	public Node l();
-	FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
+	//FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
 	
 	/** This is core data. Param, 1 of 3 trinary forest childs. To start, all you have is leaf, so call that on itself, then you have 2 nodes. */
 	public Node r();
-	FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
+	//FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
 	
 	//Whats above are the primary storage of data. Whats below is cache of it or of it in childs recursively,
 	//or functions for creating combos of it etc.
@@ -188,11 +188,11 @@ public interface λ<Node extends λ<Node>> extends Cbt{
 	This will be very useful for large bitstrings (cbt).
 	*/
 	public Node go(long sequence);
-	FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
+	//FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
 	
 	/** same as at(sequence).tv() but maybe more efficient by not creating any nodes */
 	public TruthValue tv(long sequence);
-	FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
+	//FIXME should ((u u)(u u)) be identityFunc and the left child of u, and u is the right child of u?
 	
 	/** This is a cache or derived. By trinary forest shape and TruthValue at each node.
 	allYes, allObserve, allUnknown, and anyBull are cache of TruthValues reachable below,
@@ -208,10 +208,88 @@ public interface λ<Node extends λ<Node>> extends Cbt{
 	*/
 	public int hashCode();
 	
-	/** This is a cache or derived. Returns the one leaf which all paths lead to.
+	/** a constant, viewable as generic Node type.
+	u/leaf/theUniversalFunction. This is a cache or derived. Returns the one leaf which all paths lead to.
 	This does not depend on which instance λ its called from except they may optimize it different ways.
+	Left/right childs of u() are i() and u(), so (L x (R x)) equals x forall x.
 	*/
-	public Node leaf();
+	public Node _u();
+	
+	/** (L x (R x)) equals x forall x, so u/leaf's left child is identityFunc and its right child is itself */
+	public default Node _leftChildOfU(){
+		return _i();
+	}
+	
+	/** (L x (R x)) equals x forall x, so u/leaf's left child is identityFunc and its right child is itself */
+	public default Node _rightChildOfU(){
+		return _u();
+	}
+	
+	/** a constant, viewable as generic Node type. */
+	public default Node _uu(){
+		return _u().p(_u());
+	}
+	
+	/** a constant, viewable as generic Node type. */
+	public default Node _zero(){
+		return _u().p(_uu());
+	}
+	
+	/** a constant, viewable as generic Node type. */
+	public default Node _one(){
+		return _uu().p(_u());
+	}
+	
+	/** a constant, viewable as generic Node type. identityFunc.
+	Left/right childs of u() are i() and u(), so (L x (R x)) equals x forall x.
+	*/
+	public default Node _i(){
+		return _uu().p(_uu());
+	}
+	
+	/** a constant, viewable as generic Node type.
+	(typeval cbt_of_the_utf8_text_image_slash_jpg cbt_of_jpg_bytes) is a jpg image with contentType of "image/jpeg",
+	aka (typeval "image/jpeg" ...bytesOfTheJpg...), if using a syntax that knows first param of typeval is a string,
+	but other places if you want that syntax the bytes of the string go in (typeval "text/plain") which will be automatic.
+	(typeval "image/jpeg" ...bytesOfTheJpg...) is YES or NO depending if its a valid jpg file bytes,
+	but if you dont know then you can use UNKNOWN.
+	If the first param of typeval is a cbt, then its viewed as the utf8 bytes of a contentType.
+	In other places, if you want to use utf8 strings, or utf16 or whatever contentType,
+	you put it in a typeval. There will be optimizations to check for prefixes like (typeval "text/plain")
+	or (typeval "application/octet-stream") or (typeval "text/javascript" "(function(x,y){ return x*x+y; })") etc,
+	but just cuz you can say something is a contentType does not mean you should execute it outside the sandbox.
+	Axiomforest runs only by functions of (node,node)->node such as implements universal lambda logic
+	or other specialized optimized kinds of logic might hook in as plugins.
+	The universal lambda logic is sandboxed, so anything thats defined that way, which may be optimized
+	such as using Compiled.java (in occamsfuncer or wikibinator etc), which may act anywhere in the axiom forest
+	to prove things are TruthValue.yes or TruthValue.no.... Thats sandboxed,
+	but if you just download out of the sandbox something like a (typeval "text/javascript" "while(true);")
+	and run that outside a sandbox then you would be choosing to run while(true); which is an infinite loop
+	and your browser tab would crash or worse things could happen if its outside a browser,
+	so its strongly suggested to stay inside the sandbox
+	where infinite loops dont happen cuz all calculations happen in small pieces of (node,node)->node
+	and the only thing it ever does is set some things to TruthValue.yes or TruthValue.no and look into
+	why conflicts happen, if conflicts ever happen which eventually they should not anymore
+	as we could converge toward a consistent set of axioms that never generate any TruthValue.bull.
+	*/
+	public default Node _typeval(){
+		return _u().p(_i());
+	}
+	
+	/** a constant, viewable as generic Node type. This always maps to TruthValue.yes.
+	You cant have something that always maps to TruthValue.bull since that disproves it,
+	and its maybe not stable to have something that always maps to TruthValue.unknown
+	since someone could claim its YES or claim its NO and nobody would be able to disprove it
+	since only the opposite NO or YES can disprove that.
+	*/
+	public default Node _yes(){
+		return _u().p(_one());
+	}
+	
+	/** a constant, viewable as generic Node type. This always maps to TruthValue.no. See comment of _yes(). */
+	public default Node _no(){
+		return _u().p(_zero());
+	}
 	
 	/** Call pair, independent of this instance, giving the TruthValue and its 2 childs. This could have been a static func.
 	<br><br>
@@ -242,40 +320,44 @@ public interface λ<Node extends λ<Node>> extends Cbt{
 		return p(TruthValue.yes, r);
 	}
 	
+	/*FIXME if w(int...) is powOf2 number of ints, then there should be a choice to
+	wrap it in cbt (without padding) vs blob (with padding), and similar for all the other primitive types.
+	
 	TODO λ.java implement immutable.util.Blob and similar for these wrapping functions?
 			
 	TODO should these copy the data or wrap it and the caller agrees not to modify it, or use wrapb vs wrapc for that?
 	aka w(...) vs W(...)?
+	*/
 	
-	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	/** immutable. wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
 	public λ w(boolean... data);
 	
-	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	/** immutable. wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
 	public λ w(byte... data);
 	
-	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	/** immutable. wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
 	public λ w(short... data);
 	
-	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	/** immutable. wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
 	public λ w(char... data);
 	
-	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	/** immutable. wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
 	public λ w(float... data);
 	
-	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	/** immutable. wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
 	public λ w(int... data);
 	
-	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	/** immutable. immutable. wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
 	public λ w(long... data);
 	
-	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	/** immutable. wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
 	public λ w(double... data);
 	
-	/** wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
+	/** immutable. wrap in cbt and TruthValue.yes. ((u u) u) is 1. (u (u u)) is 0. Pads with 1000000... up to next powOf2. */
 	public λ w(Buffer data);
 	
 	
-	TODO make sure these funcs are flexible enough for lazycl, which is 1 of the places where Blob.java is,
+	/*TODO make sure these funcs are flexible enough for lazycl, which is 1 of the places where Blob.java is,
 	and it has LazyBlob which is derived only from a key val key val key val... map of string to LazyBlob
 	as a vararg call lazycl(String LazyBlob String LazyBlob...). That would of course be just something
 	that uses axiomforest, similar to wikibinator will use axiomforest.
@@ -284,6 +366,7 @@ public interface λ<Node extends λ<Node>> extends Cbt{
 	you should eval it outside the axiomforest. A BinaryOperator<λ> which implements wikibinator,
 	andOr which implements lazycl, is ok to be in axiomforest only if its ok to call on all possible params
 	which means it needs to be sandboxed.
+	*/
 	
 	
 	

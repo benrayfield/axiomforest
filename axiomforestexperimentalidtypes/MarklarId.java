@@ -2,8 +2,9 @@
 package axiomforestexperimentalidtypes;
 
 public class MarklarId{
+	private MarklarId(){} //use static funcs
 	
-	TODO in some other class implement a default sha3_256 (its last 30 bytes, else 1..128 bits of literal) id,
+	/*TODO in some other class implement a default sha3_256 (its last 30 bytes, else 1..128 bits of literal) id,
 	with a heightAndOrIsliteralvsnotisliteraletcByte
 	and truthvalueAnd6BitsOfCacheByte_or1LessIfTheHeightByteTellsIsLeafVsNotLeaf,
 	and implement all 0s being null, and implement the 2 childs and 1 normed form hashing,
@@ -18,6 +19,7 @@ public class MarklarId{
 	
 	TODO id differs by only 1 bit if its allYes vs allUnknown,
 	and maybe similar (1-2 more bits?) for those vs allUnknown vs allUnknownBelow.
+	*/
 	
 
 }

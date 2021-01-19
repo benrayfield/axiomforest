@@ -12,7 +12,7 @@ public class ConwaysGameOfLifeAxiomsTest{
 		TODO run ConwaysGameOfLifeAxiomsTest.axiom in many random combos, proving YES vs NO various random places,
 		and watch (todo put it on screen) conways game of life move,
 		while allowing you to draw on it. Will need a huge possible state space
-		since every map of [map of 3d point to conwayAliveCell vs conwayDeadCell] to true/false,
+		since every map of [map of 3d point to conwayAliveCell vs conwayDeadCell] to YES/NO,
 		or something like that, or only within 3x3x2 rectangles or something like that...
 		You cant ever change between YES and NO... Only UNKNOWN can become YES or UNKNOWN becomes NO,
 		per axiomforest node, so whatever possible starting state,

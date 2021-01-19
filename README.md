@@ -1,7 +1,6 @@
 # axiomforest
 A kind of number completely defined in this sentence, that an axiomforest is an immutable 4-way forest with 2 axiomforest childs and 2 bits which mean Unknown, Yes, No, or Bull, and Bull means simultaneous Yes and No which happens when ORing axiomforests together, and Bull is an error needing forking, and the creation of new axiomforests happens by any chosen function of 2 axiomforests to 1 axiomforest (try all pairs randomly, or strategicly for more efficiency, with each such node node to node function) which is a way to change statements from unknown to yes or no but if bull happens anywhere then whatever caused it you need to back out and dont use any set of statements being yes or no which can possibly lead to bull again as converging gradually toward higher consistency. Its for number crunching, experimenting with various kinds of godel-numbering and pattern calculus functions and universal lambda functions (combinators) such as occamsfuncer, wikibinator, iota, unlambda, andOr urbit, and for AIs and neuralnets and neural-turing-machine-like experiments, and virtual worlds computed on GPUs with trillions of threads and exabits stored and flowing data across the internet at gaming-low-lag all as one big sparse bloom-filter where unknown is 00, yes is 10, no is 01, and bull is 11, in each binary forest node, and if you want to say just 1 binary forest node is yes or no then you use unknown (00) in all nodes below it (theres an optimization for it, caching a few extra bits in node ids derived from below) and this node is yes (10) or no (01) which are the 4 TruthValues. Scaleable. Gaming-low-lag. Immutable. Merkle. Near-godel-quality-self-reference. Number.
 
-```
 package axiomforest.test;
 import java.util.function.BinaryOperator;
 import axiomforest.λ;
@@ -10,27 +9,32 @@ public class ConwaysGameOfLifeAxiomsTest{
 		TODO
 	};
 	public static void main(String... args){
-		TODO run ConwaysGameOfLifeAxiomsTest.axiom in many random combos, proving YES vs NO various random places,
+		TODO run ConwaysGameOfLifeAxiomsTest.axiom in many random combos,
+		proving YES vs NO various random places,
 		and watch (todo put it on screen) conways game of life move,
 		while allowing you to draw on it. Will need a huge possible state space
 		since every map of [map of 3d point to conwayAliveCell vs conwayDeadCell] to yes/no,
 		or something like that, or only within 3x3x2 rectangles or something like that...
-		You cant ever change between YES and NO... Only UNKNOWN can become YES or UNKNOWN becomes NO,
+		You cant ever change between YES and NO...
+		Only UNKNOWN can become YES or UNKNOWN becomes NO,
 		per axiomforest node, so whatever possible starting state,
 		and updates within it, all that has to be "in a different multiverse branch"
 		than things which disagree on which cells are which of alive/dead.
 		After wikibinator102 is working in axiomforest, you wont need a new axiom for each kind of game,
 		since the wikibinator102 axiom will contain all possible turing complete statements
 		and axioms about how to compute them in bigO(1) size steps,
-		including conways game of life, chess, go, FPS games, and a variety of other things we might build together
+		including conways game of life, chess, go, FPS games, and a variety of other things
+		we might build together
 		in the shared space, proven or disproven consistent with eachother by axioms.
-		Also, (u (typeval "text/plain" "ConwaysGameOfLifeAxiomsTest456457345345") ...params...) namespace is meant to be
+		Also, (u (typeval "text/plain" "ConwaysGameOfLifeAxiomsTest456457345345") ...params...)
+		namespace is meant to be
 		a permanent part of the axiomforest, as is every little experiment that anyone creates,
 		as long as it doesnt imply anything outside its namespace, it wont interfere with other things
-		unless those things choose to interfere with it based on what it proves and disproves within its namespace.
+		unless those things choose to interfere with it based on what it proves and disproves
+		within its namespace.
 	}
 }
-```
+
 
 u is the leaf aka thue universal function, and is height 0.
 

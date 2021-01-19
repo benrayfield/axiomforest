@@ -35,6 +35,19 @@ public class ConwaysGameOfLifeAxiomsTest{
 		as long as it doesnt imply anything outside its namespace, it wont interfere with other things
 		unless those things choose to interfere with it based on what it proves and disproves
 		within its namespace.
+		
+		The state space of all possible conwaylife games is like the space of all possible minecraft worlds,
+		as its 2d + 1d of time, and if it allows you to paint alive/dead cells in that 3d space,
+		without having to store any of the data (since every possible multiverse state has a constant id) on a server
+		but you store the state you're observing and forks of it and combos of that with other peoples forks...
+		Then it seem to need a treemap (trie-like except skipping parts where theres only 1 branch),
+		which is the kind of treemap I'm going to use in wikibinator102 but I'll have to hardcode it into
+		the ConwaysGameOfLifeAxiomsTest456457345345 axiom since this is an early testcase.
+		A treemap generates the same 256 bit id regardless of the order of things put in it, for every possible treemap.
+		Axioms would therefore recurse 1 depth at a time in such a treemap (cuz must be bigO(1) steps)
+		and forkEdit the treemap to have different contents, such as forking to a new "conway multiverse state".
+		That would take alot of steps to run conwaylife, while each step would take a few microseconds,
+		but things that change over time and have an endless 3d minecraft-like space normally are slow.
 	}
 }
 ```
